@@ -4,13 +4,18 @@
 
     const inputBox = document.querySelector('input');
     const listParent = document.getElementById('list-area');
-    const btnListDelete = document.getElementsByClassName('btn-list-delete')
+    const btnListDelete = document.querySelectorAll('.btn-list-delete');
+
+    function listCheck(list) {
+        list.childNodes;
+        console.log(list.childNodes);
+    }
 
     function listAdd(_this) {
-        let inputValue = _this.value;
-        let list = document.createElement('li');
-        let paragraph = document.createElement('p');
-        let createBtn =  document.createElement('button');
+        const inputValue = _this.value;
+        const list = document.createElement('li');
+        const paragraph = document.createElement('p');
+        const createBtn =  document.createElement('button');
 
         list.className = 'list-item';
         paragraph.innerHTML = inputValue;
@@ -38,10 +43,19 @@
             }
         });
 
-        btnListDelete[0].addEventListener('click', function(event) {
-            console.log('클릭');
-        }, false);
+        // 동적으로 생성된 요소에 이벤트를 위임해야함. 제이쿼리랑 비슷하네.
+        document.addEventListener('click', function(event) {
+            console.log(event.target.parentNode.className);
+            if(event.target && event.target.className == 'btn-list-delete') {
+                let btnParentNode = event.target.parentNode;
+                btnParentNode.remove();
+            } 
 
+            if(event.target && event.target.parentNode.className == 'list-item') {
+                let listParentNode = event.target.parentNode;
+                listCheck(listParentNode);
+            }
+        });
     }
 
     init();
